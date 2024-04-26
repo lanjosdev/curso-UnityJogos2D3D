@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextReader", "TextReader\TextReader.csproj", "{E5702E19-0082-4F5B-A930-7CFFFF6D3A00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5702E19-0082-4F5B-A930-7CFFFF6D3A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5702E19-0082-4F5B-A930-7CFFFF6D3A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5702E19-0082-4F5B-A930-7CFFFF6D3A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5702E19-0082-4F5B-A930-7CFFFF6D3A00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {890F5BC0-A1F6-4549-8E9A-73857FD75F27}
+	EndGlobalSection
+EndGlobal
