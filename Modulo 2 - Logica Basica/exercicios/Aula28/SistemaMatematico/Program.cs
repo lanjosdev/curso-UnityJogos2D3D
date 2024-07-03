@@ -58,9 +58,13 @@ namespace SistemaMatematico
             }
         }
 
-        static int CalcularDivisao(int num1, int num2)
+        /*static int CalcularDivisao(int num1, int num2)
         {
             return num1 / num2; 
+        }*/
+        static void CalcularDivisao(int num1, int num2, out int quociente)
+        {
+            quociente = num1 / num2;
         }
 
         
@@ -111,7 +115,7 @@ namespace SistemaMatematico
                         }
                         else
                         {
-                            quociente = CalcularDivisao(n1, n2);
+                            CalcularDivisao(n1, n2, out quociente);
                             Console.WriteLine("A divisão de {0} por {1} é igual a: {2}", n1, n2, quociente);
                         }
                         break;
