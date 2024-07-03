@@ -10,6 +10,23 @@ namespace TextEditor
     internal class Program
     {
         // Funções:
+        static void GravarArquivo(string arquivo, string texto, bool incrementar = false)
+        {
+            try
+            {
+                StreamWriter sw = new StreamWriter(arquivo, incrementar);
+
+                sw.WriteLine(texto);
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("DEU ERRO: " + e.Message);
+                Console.ReadKey();
+            }
+
+        }
+
         static void LerArquivo(string arquivo)
         {
             try
@@ -32,14 +49,17 @@ namespace TextEditor
 
             Console.ReadKey();
         }
+        
+
         static int ExibirMenu()
         {
             Console.Clear();
             Console.WriteLine("|--------- EDITOR DE TEXTO ---------|");
             Console.WriteLine("(1) Abrir/criar um arquivo;");
             Console.WriteLine("(2) Exibir texto do arquivo;");
-            Console.WriteLine("(3) Gravar um texto no arquivo;");
-            Console.WriteLine("(4) Gravar um novo texto no arquivo;");
+            Console.WriteLine("(3) Criar/sobrescrever um texto no arquivo;");
+            Console.WriteLine("(4) Adicionar um texto no arquivo;");
+            Console.WriteLine();
             Console.WriteLine("(5) SAIR");
 
             Console.WriteLine();
@@ -61,6 +81,8 @@ namespace TextEditor
             // Variaveis:
             int opcao = 0;
             string arquivo = "";
+            string texto = "";
+
 
             // INICIO:
             while (opcao != 5)
@@ -77,6 +99,20 @@ namespace TextEditor
                         break;
                     case 2:
                         //Exibir texto do arquivo
+                        LerArquivo(arquivo);
+                        break;
+                    case 3:
+                        //Gravar um texto no arquivo
+                        Console.Write("Informe o texto a ser gravado no arquivo: ");
+                        texto = Console.ReadLine();
+                        GravarArquivo(arquivo, texto);
+                        LerArquivo(arquivo);
+                        break;
+                    case 4:
+                        //Adicionar um texto no arquivo
+                        Console.Write("Informe o texto a ser incrementado no arquivo: ");
+                        texto = Console.ReadLine();
+                        GravarArquivo(arquivo, texto, true);
                         LerArquivo(arquivo);
                         break;
                 }
