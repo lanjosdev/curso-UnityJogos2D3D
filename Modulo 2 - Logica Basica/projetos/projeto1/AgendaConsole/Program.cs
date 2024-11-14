@@ -242,6 +242,7 @@ namespace AgendaConsole
             Console.ReadKey();
         }
 
+
         static void Main(string[] args)
         {
             //VARIAVEIS:
@@ -255,6 +256,8 @@ namespace AgendaConsole
 
             //INICIO
             // deve carregar os dados do arquivo txt (nosso db)
+            BackupAgenda.dbFile = "dados.txt";
+            BackupAgenda.RestoreData(ref nomes, ref emails, ref numRegistro);
 
             while (opcao != 6)
             {
@@ -318,6 +321,7 @@ namespace AgendaConsole
             }
 
             //salvar os dados no arquivo txt
+            BackupAgenda.SaveData(ref nomes, ref emails, ref numRegistro);
         }
     }
 }
