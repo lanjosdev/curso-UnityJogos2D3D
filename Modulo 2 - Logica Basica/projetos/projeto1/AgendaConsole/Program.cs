@@ -76,24 +76,31 @@ namespace AgendaConsole
 
             try
             {
-                Console.Write("Digite o nome: ");
-                string nomeCreate = Console.ReadLine();
-                Console.Write("Digite o email: ");
-                string emailCreate = Console.ReadLine();
-
-                //Verifica se email já esta na agenda:
-                int pos = LocalizarContato(email, tl, emailCreate);
-                if(pos == -1) {
-                    nome[tl] = nomeCreate;
-                    email[tl] = emailCreate;
-                    tl++;
-
-                    Console.Clear();
-                    Console.WriteLine("Contato criado com sucesso!");
+                if (tl >= 200) {
+                    Console.WriteLine("Quantidade máxima de contato já atingida!!!");
                 }
                 else
                 {
-                    Console.WriteLine("Já existe um contato com este e-mail");
+                    Console.Write("Digite o nome: ");
+                    string nomeCreate = Console.ReadLine();
+                    Console.Write("Digite o email: ");
+                    string emailCreate = Console.ReadLine();
+
+                    //Verifica se email já esta na agenda:
+                    int pos = LocalizarContato(email, tl, emailCreate);
+                    if (pos == -1)
+                    {
+                        nome[tl] = nomeCreate;
+                        email[tl] = emailCreate;
+                        tl++;
+
+                        Console.Clear();
+                        Console.WriteLine("Contato criado com sucesso!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Já existe um contato com este e-mail");
+                    }
                 }
             }
             catch(Exception e) {
@@ -123,33 +130,47 @@ namespace AgendaConsole
                     int pos = LocalizarContato(emails, numRegistro, getEmail);
                     if (pos != -1)
                     {
+                        Console.Clear();
                         Console.WriteLine("Contato encontrado! Agora insira os novos dados:");
                         Console.Write("Novo nome (se não, deixe vazio): ");
                         string newNome = Console.ReadLine();
-                        if (newNome != "")
+                        if (newNome != "" && newNome != nomes[pos])
                         {
                             nomes[pos] = newNome;
                         }
+                        else
+                        {
+                            newNome = "";
+                        }
+
                         Console.Write("Novo e-mail (se não, deixe vazio): ");
                         string newEmail = Console.ReadLine();
+                        int posAux = -1;
                         if (newEmail != "")
                         {
-                            int posAux = LocalizarContato(emails, numRegistro, newEmail);
-                            if (posAux != -1)
-                            {
-                                Console.WriteLine("Já existe um contato com este e-mail");
-                            }
-                            else
+                            posAux = LocalizarContato(emails, numRegistro, newEmail);
+                            if (posAux == -1 || posAux == pos)
                             {
                                 emails[pos] = newEmail;
                             }
+                            else
+                            {
+                                Console.WriteLine("Já existe um contato com este e-mail");
+                                Console.Write("Aperte qualquer tecla p/ continuar.");
+                                Console.ReadKey();
+                            }
                         }
 
-                        if (newNome != "" || newEmail != "")
+                        if (newNome != "" || (newEmail != "" && posAux == -1))
                         {
                             Console.Clear();
-                            Console.WriteLine("Contato alterado com sucesso! Veja os novos dados:");
+                            Console.WriteLine("Contato alterado! Veja os novos dados:");
                             Console.WriteLine("Nome: {0} - Email: {1}", nomes[pos], emails[pos]);
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Nenhuma alteração foi realizada!");
                         }
                     }
                     else
@@ -167,6 +188,59 @@ namespace AgendaConsole
             Console.ReadKey();
         }
 
+        static void DeleteContato(ref string[] nomes, ref string[] emails, ref int numRegistro)
+        {
+            Console.WriteLine("DELETAR UM CONTATO:");
+
+            if (numRegistro == 0)
+            {
+                Console.WriteLine("Ainda não existem contatos na agenda.");
+            }
+            else
+            {
+                Console.Write("Digite o email do contato que deseja deletar: ");
+                string emailDel = Console.ReadLine();
+                int pos = -1;
+
+                pos = LocalizarContato(emails, numRegistro, emailDel);
+                if (pos != -1)
+                {
+                    Console.WriteLine("Nome: {0} - Email: {1}", nomes[pos], emails[pos]);
+                    Console.Write("Deseja deletar o contato acima? (S/N): ");
+                    string resDelete = Console.ReadLine();
+
+                    if (resDelete == "s" || resDelete == "S")
+                    {
+                        try
+                        {
+                            for (int idx = pos; idx < numRegistro; idx++)
+                            {
+                                nomes[idx] = nomes[idx + 1];
+                                //Console.WriteLine(nomes[idx]);
+                                emails[idx] = emails[idx + 1];
+                                //Console.WriteLine(emails[idx]);
+                            }
+
+                            numRegistro--;
+
+                            Console.Clear();
+                            Console.WriteLine("Contato deletado com sucesso!");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("DEU ERRO: " + ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Contato não encontrado");
+                }
+            }
+
+            Console.Write("Aperte qualquer tecla p/ voltar ao MENU.");
+            Console.ReadKey();
+        }
 
         static void Main(string[] args)
         {
@@ -229,55 +303,7 @@ namespace AgendaConsole
                         break;
                     case 5:
                         //Deletar contato
-                        Console.WriteLine("DELETAR UM CONTATO:");
-
-                        if (numRegistro == 0)
-                        {
-                            Console.WriteLine("Ainda não existem contatos na agenda.");
-                        }
-                        else
-                        {
-                            Console.Write("Digite o email do contato que deseja deletar: ");
-                            inputEmail = Console.ReadLine();
-
-                            pos = LocalizarContato(emails, numRegistro, inputEmail);
-                            if (pos != -1)
-                            {
-                                Console.WriteLine("Nome: {0} - Email: {1}", nomes[pos], emails[pos]);
-                                Console.Write("Deseja deletar o contato acima? (S/N): ");
-                                string resDelete = Console.ReadLine();
-
-                                if(resDelete == "s" || resDelete == "S")
-                                {
-                                    try
-                                    {
-                                        for (int idx = pos; idx < numRegistro; idx++)
-                                        {
-                                            nomes[idx] = nomes[idx + 1];
-                                            //Console.WriteLine(nomes[idx]);
-                                            emails[idx] = emails[idx + 1];
-                                            //Console.WriteLine(emails[idx]);
-                                        }
-
-                                        numRegistro--;
-
-                                        Console.Clear();
-                                        Console.WriteLine("Contato deletado com sucesso!");
-                                    }
-                                    catch(Exception ex)
-                                    {
-                                        Console.WriteLine("DEU ERRO: " + ex.Message);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Contato não encontrado");
-                            }
-                        }
-
-                        Console.Write("Aperte qualquer tecla p/ voltar ao MENU.");
-                        Console.ReadKey();
+                        DeleteContato(ref nomes, ref emails, ref numRegistro);
                         break;
                     case 6:
                         //SAIR
