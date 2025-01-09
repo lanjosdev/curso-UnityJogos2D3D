@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeuBichinhoVirtual
@@ -16,7 +17,7 @@ namespace MeuBichinhoVirtual
             - Coleta os dados de alimento, limpo e feliz em um arquivo de texto
             */
 
-            // VARIAVEIS - ATRIBUTOS:
+            // VARIAVEIS:
             string entrada = "";
             string nome = "";
             string nomeDono = "";
@@ -30,6 +31,12 @@ namespace MeuBichinhoVirtual
             int propriedade = 0;
             Random rand = new Random();
 
+            // Dialagos do bichinho:
+            string[] dialogos = new string[] {
+                "Nossa o dia foi muito legal, comi o sofa!!!",
+                "Hoje o dia está lindo lá fora.",
+                "Que show da Xuxa é esse???"
+            };
 
 
             // ENTRADA DE DADOS:    
@@ -48,6 +55,7 @@ namespace MeuBichinhoVirtual
             Console.Write("Digite seu nome aqui: ");
             nomeDono = Console.ReadLine();
             Console.WriteLine();
+            Console.WriteLine("{0}:", nome);
             Console.WriteLine("Oiiii {0}, estava com muita saudade de você!!!", nomeDono);
             Console.ReadKey();
 
@@ -57,9 +65,9 @@ namespace MeuBichinhoVirtual
 
             // LOOP DO GAME:
             //entrada = "sim";
-            while (entrada.ToLower() != "nada") 
+            while (entrada.ToLower() != "nada" && alimentado > 0 && higiene > 0 && humor > 0) 
             {
-                // Altera as propriedades do bichinho randomicamente (0 - alimentado; 1 - higiene; 2 - humor)
+                // Decrementa as propriedades do bichinho randomicamente (0 - alimentado; 1 - higiene; 2 - humor)
                 propriedade = rand.Next(3); // gera um numero aleatorio de 0 até menor q o indicado
 
                 switch (propriedade)
@@ -72,35 +80,46 @@ namespace MeuBichinhoVirtual
 
                 // Interage com o usuário:
                 Console.Clear();
-                //Console.WriteLine("Oiiii {0}, estava com muita saudade de você!!!", nomeDono);
                 Console.WriteLine("Alimentado: {0}", alimentado);
                 Console.WriteLine("Higiene: {0}", higiene);
                 Console.WriteLine("Humor: {0}", humor);
 
-                if(alimentado > 40 && alimentado < 60)
+                // Dialogos do bichinho:
+                Console.WriteLine();
+                Console.WriteLine("{0}:", nome);
+                Console.WriteLine(dialogos[rand.Next(dialogos.Length)]);
+                Thread.Sleep(2000);
+
+                if (alimentado > 30 && alimentado < 60)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Eu estou faminto!!!!!!");
                     Console.WriteLine("Nada melhor que um lanchinho...");
+                    Thread.Sleep(1500);
                 }
-                if (higiene > 40 && higiene < 60)
+                if (higiene > 30 && higiene < 60)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Nossa estou meio sujinho!!!!!!");
                     Console.WriteLine("Nada melhor que um banho...");
+                    Thread.Sleep(1500);
                 }
-                if (humor > 40 && humor < 60)
+                if (humor > 30 && humor < 60)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Aiii que tédio!!!!!!");
                     Console.WriteLine("Queria brincar com alguém...");
+                    Thread.Sleep(1500);
                 }
 
-                Console.WriteLine();
+
+                Console.Clear();
+
                 Console.WriteLine("O que vamos fazer hoje, {0}?", nomeDono);
                 Console.Write("Comer / Banhar / Brincar / Nada: ");
                 entrada = Console.ReadLine().ToLower();
 
+                // Incrementa as propriedades do bichinho
                 switch(entrada)
                 {
                     case "comer": alimentado += rand.Next(30); break;
@@ -113,9 +132,19 @@ namespace MeuBichinhoVirtual
                 if(humor > 100) humor = 100;
             }
 
-            // MENSAGEM DE SAÍDA:
+            // MENSAGEM DE SAÍDA DO JOGO:
             Console.Clear();
-            Console.WriteLine("Obrigado por cuidar do seu bichinho!!!!!");
+            if (alimentado <= 0 || higiene <= 0 || humor <= 0)
+            {
+                Console.WriteLine("{0}, estou morrendo...", nomeDono);
+                Console.WriteLine("Seu bichinho morreu por falta de cuidado :(");
+            }
+            else
+            {
+                Console.WriteLine("Obrigado por cuidar de mim {0}!!!!!", nomeDono);
+                Console.WriteLine("Volte logo!!!");
+            }
+
             Console.ReadKey();
         }
     }
