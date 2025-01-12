@@ -113,6 +113,11 @@ namespace MeuBichinhoVirtual
                 }
 
 
+                if (alimentado <= 0 || higiene <= 0 || humor <= 0)
+                {
+                    break;
+                }
+
                 Console.Clear();
 
                 Console.WriteLine("O que vamos fazer hoje, {0}?", nomeDono);
