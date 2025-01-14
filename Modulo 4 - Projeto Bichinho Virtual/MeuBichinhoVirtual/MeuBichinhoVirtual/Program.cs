@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace MeuBichinhoVirtual
 {
@@ -60,12 +62,37 @@ namespace MeuBichinhoVirtual
             Console.ReadKey();
 
 
-            // COLETA OS DADOS DO BICHINHO NO ARQUIVO DE TEXTO (AINDA SERÁ GEREADO)
+            // COLETA OS DADOS DO BICHINHO NO ARQUIVO DE TEXTO:
+            string dir = Environment.CurrentDirectory + "\\"; //comando que pega o diretorio do executavel deste programa
+            string pathFileDb = dir + nome + nomeDono + ".txt";
+            if (File.Exists(pathFileDb))
+            {
+                string[] dados = File.ReadAllLines(pathFileDb);
+                alimentado = float.Parse(dados[2]);
+                higiene = float.Parse(dados[3]);
+                humor = float.Parse(dados[4]);
+                if (alimentado <= 0 || higiene <= 0 || humor <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Assistente Virtual:");
+                    Console.WriteLine("Seu bichinho está muito fraco...");
+                    alimentado = 100;
+                    higiene = 100;
+                    humor = 100;
+                    Thread.Sleep(1800);
+                    Console.WriteLine();
+                    Console.WriteLine("Pronto, deixamos ele saudável e feliz.");
+                    Console.WriteLine("Alimentado: {0}", alimentado);
+                    Console.WriteLine("Higiene: {0}", higiene);
+                    Console.WriteLine("Humor: {0}", humor);
+                    Console.ReadKey();
+                }
+            }
 
 
             // LOOP DO GAME:
             //entrada = "sim";
-            while (entrada.ToLower() != "nada" && alimentado > 0 && higiene > 0 && humor > 0) 
+            while (entrada.ToLower() != "nada" && alimentado > 0 && higiene > 0 && humor > 0)
             {
                 // Decrementa as propriedades do bichinho randomicamente (0 - alimentado; 1 - higiene; 2 - humor)
                 propriedade = rand.Next(3); // gera um numero aleatorio de 0 até menor q o indicado
@@ -95,21 +122,21 @@ namespace MeuBichinhoVirtual
                     Console.WriteLine();
                     Console.WriteLine("Eu estou faminto!!!!!!");
                     Console.WriteLine("Nada melhor que um lanchinho...");
-                    Thread.Sleep(1500);
+                    Thread.Sleep(1800);
                 }
                 if (higiene > 30 && higiene < 60)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Nossa estou meio sujinho!!!!!!");
                     Console.WriteLine("Nada melhor que um banho...");
-                    Thread.Sleep(1500);
+                    Thread.Sleep(1800);
                 }
                 if (humor > 30 && humor < 60)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Aiii que tédio!!!!!!");
                     Console.WriteLine("Queria brincar com alguém...");
-                    Thread.Sleep(1500);
+                    Thread.Sleep(1800);
                 }
 
 
@@ -125,30 +152,42 @@ namespace MeuBichinhoVirtual
                 entrada = Console.ReadLine().ToLower();
 
                 // Incrementa as propriedades do bichinho
-                switch(entrada)
+                switch (entrada)
                 {
                     case "comer": alimentado += rand.Next(30); break;
                     case "banhar": higiene += rand.Next(50); break;
                     case "brincar": humor += rand.Next(30); break;
                 }
 
-                if(alimentado > 100) alimentado = 100;
-                if(higiene > 100) higiene = 100;
-                if(humor > 100) humor = 100;
+                if (alimentado > 100) alimentado = 100;
+                if (higiene > 100) higiene = 100;
+                if (humor > 100) humor = 100;
             }
 
+            
             // MENSAGEM DE SAÍDA DO JOGO:
             Console.Clear();
             if (alimentado <= 0 || higiene <= 0 || humor <= 0)
             {
-                Console.WriteLine("{0}, estou morrendo...", nomeDono);
-                Console.WriteLine("Seu bichinho morreu por falta de cuidado :(");
+                Console.WriteLine("{0}, estou muito fraco...", nomeDono);
+                Console.WriteLine("Seu bichinho precisa de um assistente virtual :(");
+                Console.WriteLine("Nos vemos em breve.");
             }
             else
             {
                 Console.WriteLine("Obrigado por cuidar de mim {0}!!!!!", nomeDono);
                 Console.WriteLine("Volte logo!!!");
             }
+
+            // ARMAZENA OS DADOS EM UM ARQUIVO DE TEXTO:
+            //organize os dados
+            string fileContent = nome + Environment.NewLine;
+            fileContent += nomeDono + Environment.NewLine;
+            fileContent += alimentado + Environment.NewLine;
+            fileContent += higiene + Environment.NewLine;
+            fileContent += humor + Environment.NewLine;
+            //grava os dados no arquivo de texto
+            File.WriteAllText(pathFileDb, fileContent);
 
             Console.ReadKey();
         }
