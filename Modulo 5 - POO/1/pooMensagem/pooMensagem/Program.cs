@@ -12,15 +12,26 @@ namespace pooMensagem
         static void Main(string[] args)
         {
             // Variaveis
-            Mensagem msg1, msg2;
+            //Mensagem msg1, msg2;
+            SegundaMensagem msg3;
 
-            msg1 = new Mensagem(); //Instancia um objeto
+
+            // Aula 51 - Minha primeira classe:
+            /*msg1 = new Mensagem(); //Instancia um objeto
             msg1.textoMensegem = "Mensagem 1";
             msg1.ExibirMensagem();
 
             msg2 = new Mensagem(); //Instancia um objeto
             msg2.textoMensegem = "Mensagem 2";
-            msg2.ExibirMensagem();
+            msg2.ExibirMensagem();*/
+
+
+            // Aula 52 - Encapsulamento e métodos de acesso:
+            msg3 = new SegundaMensagem();
+            msg3.SetTextoMensagem("Lucas");
+            Console.WriteLine(msg3.GetTextoMensagem());
+
+
             Console.ReadKey();
         }
     }
