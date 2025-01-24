@@ -13,7 +13,7 @@ namespace pooMensagem
         {
             // Variaveis
             //Mensagem msg1, msg2;
-            SegundaMensagem msg3;
+            //SegundaMensagem msg3;
 
 
             // Aula 51 - Minha primeira classe:
@@ -27,9 +27,20 @@ namespace pooMensagem
 
 
             // Aula 52 - Encapsulamento e métodos de acesso:
-            msg3 = new SegundaMensagem();
-            msg3.SetTextoMensagem("Lucas");
-            Console.WriteLine(msg3.GetTextoMensagem());
+            //msg3 = new SegundaMensagem();
+            //msg3.SetTextoMensagem("Lucas");
+            //Console.WriteLine(msg3.GetTextoMensagem());
+
+
+            // Aula 54 - Propriedades:
+            Mensagem msg;
+
+            msg = new Mensagem(); // instancia o objeto quando for usar
+            msg.TextoMensagem = "A mensagem aqui";
+            //Console.WriteLine(msg.TextoMensagem);
+            //OU USANDO METODO:
+            msg.ExibirMensagem();    
+            
 
 
             Console.ReadKey();
